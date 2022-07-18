@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { Modal, Pressable, Text, TouchableOpacity, View } from 'react-native'
 import styles from './TodoCard.style'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const TodoCard = ({ todo, todos, setTodos }) => {
     const [modalVisible, setModalVisible] = useState(false)
 
-    const handleOnPress = () => {
+    const handleOnPress = async () => {
         let todosCopy = [...todos]
 
         const newTodos = todosCopy.map((_todo) => {
@@ -16,8 +17,8 @@ const TodoCard = ({ todo, todos, setTodos }) => {
             }
         })
         // console.log(newTodos);
-
         setTodos(newTodos)
+        await AsyncStorage.setItem('todos', JSON.stringify(newTodos))
     }
 
     const handleOnLongPress = () => {
@@ -30,14 +31,14 @@ const TodoCard = ({ todo, todos, setTodos }) => {
         // setTodos(newTodos)
     }
 
-    const deleteTodo = () => {
+    const deleteTodo = async () => {
         setModalVisible(!modalVisible)
         let todosCopy = [...todos]
 
         const newTodos = todosCopy.filter((_todo) => _todo.id !== todo.id)
         // console.log(newTodos);
-
         setTodos(newTodos)
+        await AsyncStorage.setItem('todos', JSON.stringify(newTodos))
     }
 
     return (
@@ -54,12 +55,14 @@ const TodoCard = ({ todo, todos, setTodos }) => {
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    Alert.alert("Modal has been closed.");
                     setModalVisible(!modalVisible);
                 }}
             >
-                <View style={styles.centeredView}>
+                <View style={[styles.centeredView, { flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }]}>
                     <View style={styles.modalView}>
+                        <TouchableOpacity onPress={() => { setModalVisible(false) }} style={styles.closeModal}>
+                            <Text style={styles.closeModalText}>✖</Text>
+                        </TouchableOpacity>
                         <Text style={styles.modalText}>Silmek istediğine emin misin?</Text>
                         <TouchableOpacity
                             style={[styles.button, styles.buttonClose]}

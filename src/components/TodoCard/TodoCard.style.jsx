@@ -42,7 +42,8 @@ export default StyleSheet.create({
         },
         shadowOpacity: 0.25,
         shadowRadius: 4,
-        elevation: 5
+        elevation: 5,
+        position: 'relative'
     },
     button: {
         borderRadius: 20,
@@ -56,6 +57,19 @@ export default StyleSheet.create({
     },
     buttonClose: {
         backgroundColor: "tomato",
+    },
+    closeModal: {
+        width: 40,
+        height: 40,
+        position: 'absolute',
+        right: 8,
+        top: 4,
+        // borderWidth: 1,
+    },
+    closeModalText: {
+        fontSize: 24,
+        textAlign: 'center',
+        color: 'white',
     },
     textStyle: {
         color: "white",
