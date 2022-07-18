@@ -12,7 +12,6 @@ const TodoBody = ({ todos, setTodos }) => {
         return activeTodos.length
     }
 
-
     return (
         <View style={styles.container}>
             <View style={styles.headerWrapper}>
